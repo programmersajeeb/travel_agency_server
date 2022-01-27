@@ -56,13 +56,9 @@ async function run() {
 
     // GET API ALL BLOGS
     app.get('/newBlogs', async(req,res)=>{
-            
         const cursor = newBlogStore.find({});
-        
         const page = req.query.page;
-        
         const size = parseInt(req.query.size);
-        
         let newBlogs;
         const count = await cursor.count();
         if(page){
@@ -75,12 +71,7 @@ async function run() {
             count,
             newBlogs
         });
-      });
-
-
-
-
-
+      }); 
 
         //POST API ADD BLOGS
         app.post('/newBlogs', async(req, res) =>{
@@ -96,6 +87,15 @@ async function run() {
         const newClientBlogs = await newBlogStore.findOne(query);
         res.json(newClientBlogs);
     });
+
+
+    // DELETE API CLIENT BLOGS
+    app.delete('/newBlogs/:id', async(req, res) =>{
+        const id = req.params.id;
+        const query = {_id:ObjectId(id)};
+        const result = await newBlogStore.deleteOne(query);
+        res.json(result);
+    })
 
 
 
