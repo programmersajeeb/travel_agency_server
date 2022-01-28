@@ -20,7 +20,8 @@ async function run() {
         const blogStore = database.collection('blogs');
         const newBlogStore = database.collection('newBlogs');
         const usersCollection = database.collection('users');
-        const orderCollection = database.collection('orderProducts')
+        const orderCollection = database.collection('orderProducts');
+        const ratingCollection = database.collection('rating');
 
         // GET API ALL BLOGS
         app.get('/blogs', async(req,res)=>{  
@@ -154,6 +155,22 @@ async function run() {
         const result = await orderCollection.deleteOne(query);
         res.json(result);
     })
+
+    // ========================================================
+
+    //RATING GET API
+   app.get('/rating', async(req,res)=>{  
+    const cursor = ratingCollection.find({});
+    const rating = await cursor.toArray();
+    res.send(rating);
+  });
+
+  //RATING POST API
+  app.post('/rating', async(req, res) =>{
+    const newRatings = req.body;
+    const result = await ratingCollection.insertOne(newRatings);
+    res.json(result);
+  });
 
 
 
